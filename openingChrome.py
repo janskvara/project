@@ -4,6 +4,7 @@ import cv2
 import os
 import keyboard
 from grabScreen import grab_screen
+import uuid
 
 _x_position = 0
 _y_position = 0
@@ -18,11 +19,6 @@ driver.get("https://chromedino.com")
  
 # set window position
 count = 0
-pic = 1
-
-# Point to where we want the images to be saved
-my_path = os.path.abspath(os.path.dirname(__file__))
-path = os.path.join(my_path, "img\\")
 
 _up_path = r'.\dataset\dup' 
 if not os.path.exists(_up_path):
@@ -48,12 +44,12 @@ while not keyboard.is_pressed("e"):
     cv2.waitKey(1)
 
     if keyboard.is_pressed(' '):
-        cv2.imwrite(f"{_up_path}\BotView{count}.jpg", image)
+        cv2.imwrite(f"{_up_path}\{uuid.uuid4()}.jpg", image)
         continue
 
     if keyboard.is_pressed('down'):
-        cv2.imwrite(f"{_down_path}\BotView{count}.jpg", image)
+        cv2.imwrite(f"{_down_path}\{uuid.uuid4()}.jpg", image)
         continue
 
     if count%20 == 0:
-        cv2.imwrite(f"{_nothing_path}\BotView{count}.jpg", image)
+        cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)
