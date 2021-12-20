@@ -1,6 +1,12 @@
 from fastai.vision.all import *
+import pickle as pk
 
 def label_func(x): return x.parent.name
+
+def export(data):
+    pk_out = open('learner.pkl', 'wb')
+    pk.dump(data, pk_out)
+    pk_out.close()
 
 def train():
     path = r'.\dataset'
@@ -15,8 +21,10 @@ def train():
 
 
 if __name__ == '__main__':
-    learn = train()
+    learner = train()
 
-    #interp = ClassificationInterpretation.from_learner(learn)
+    #interp = ClassificationInterpretation.from_learner(learner)
     #interp.plot_confusion_matrix(figsize=(6,6))
-    learn.fit(3)
+
+    learner.fit(3)
+    export(learner)
