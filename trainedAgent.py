@@ -1,11 +1,23 @@
+from torch._C import wait
 from grabScreen import grab_screen
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from fastai.vision.all import *
 import keyboard
+import time
+import pyautogui as pyautogui
 import cv2
 
 def label_func(x): return x.parent.name
+
+def scan_for_restart(): # scans for the game restart
+    result = pyautogui.locateOnScreen(r'dataset\restart.png', grayscale=True, region=(100, 150, 400, 350), confidence=0.9)
+    if result != None:
+        time.sleep(1)
+        print('RESTART')
+        keyboard.press_and_release('space')
+    else:
+        print('CONTINUE')
 
 def load(path):
     learner = load_learner(path)
@@ -46,6 +58,7 @@ def run():
 
     # decide about next moves until user presses 'e' key
     while not keyboard.is_pressed("e"):
+        scan_for_restart()
         action = decide(learner)
         prevKey = None
 
@@ -70,5 +83,4 @@ def run():
 if __name__ == '__main__':
     learner = load('dataset\model.pkl')
     run()
-
 
