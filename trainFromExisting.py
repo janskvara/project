@@ -3,11 +3,6 @@ import pickle as pk
 
 def label_func(x): return x.parent.name
 
-def export(data):
-    pk_out = open('learner.pkl', 'wb')
-    pk.dump(data, pk_out)
-    pk_out.close()
-
 def train():
     path = r'.\dataset'
     namesList = get_image_files(path)
@@ -22,9 +17,10 @@ def train():
 
 if __name__ == '__main__':
     learner = train()
-
+    learner.export('model.pkl')
     #interp = ClassificationInterpretation.from_learner(learner)
     #interp.plot_confusion_matrix(figsize=(6,6))
-
-    learner.fit(3)
-    export(learner)
+    learner.lr_find()
+    learner.fine_tune(2, 3e-3)
+    learner.show_results()
+    learner.fit(1)

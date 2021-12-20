@@ -35,10 +35,10 @@ if not os.path.exists(_nothing_path):
 # Collets images until you press e
 while not keyboard.is_pressed("e"):
     count += 1
-    image = grab_screen(region = (_x_position + 100, _y_position+300, width, 200))
+    image = grab_screen(region = (_x_position + 100, _y_position + 300, width, 200))
     #Covert to grayscale
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # Cover to black or white pixel
+    # Convert to black or white pixel
     (thresh, image) = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
     cv2.imshow('Bot View', image)
     cv2.waitKey(1)
