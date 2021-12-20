@@ -55,8 +55,11 @@ def run():
     driver.get("https://chromedino.com")
 
     prevKey = None
+    keyboard.press_and_release('space') #game start
+    
     # decide about next moves until user presses 'e' key
     while not keyboard.is_pressed("e"):
+
         scan_for_restart()
         action = decide(learner)
 
