@@ -11,13 +11,11 @@ import cv2
 def label_func(x): return x.parent.name
 
 def scan_for_restart(): # scans for the game restart
-    result = pyautogui.locateOnScreen(r'dataset\restart.png', grayscale=True, region=(100, 150, 400, 350), confidence=0.9)
-    if result != None:
+    result = pyautogui.locateOnScreen(r'dataset\restart.png', grayscale=True, region=(100, 150, 400, 350), confidence=0.9) 
+    if result != None: # restart button located
         time.sleep(1)
         print('RESTART')
         keyboard.press_and_release('space')
-    else:
-        print('CONTINUE')
 
 def load(path):
     learner = load_learner(path)
@@ -56,11 +54,11 @@ def run():
     # get chromedinoS
     driver.get("https://chromedino.com")
 
+    prevKey = None
     # decide about next moves until user presses 'e' key
     while not keyboard.is_pressed("e"):
         scan_for_restart()
         action = decide(learner)
-        prevKey = None
 
         # transfer from directory name to key name
         if action == 'ddown':
