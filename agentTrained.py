@@ -55,7 +55,7 @@ def run():
             continue
 
 if __name__ == '__main__':
-    learner = load('model.pkl')
+    learner = load('dataset\model.pkl')
     run()
 
 
