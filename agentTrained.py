@@ -5,8 +5,10 @@ import cv2
 import keyboard
 from fastai.vision.all import *
 
+def label_func(x): return x.parent.name
+
 def load(path):
-    learner = load_learner('dataset\model.pkl')
+    learner = load_learner(path)
     return(learner)
 
 def decide(learner):
@@ -53,7 +55,7 @@ def run():
             continue
 
 if __name__ == '__main__':
-    learner = load('learner.pkl')
+    learner = load('model.pkl')
     run()
 
 
