@@ -2,13 +2,12 @@ import cv2
 import numpy as np
 import win32gui, win32ui, win32con, win32api
 
-
 def grab_screen(region=None):
 
     hwin = win32gui.GetDesktopWindow()
 
     if region:
-            left, top, width ,height = region
+            left, top, width, height = region
     else:
         width = win32api.GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN)
         height = win32api.GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN)

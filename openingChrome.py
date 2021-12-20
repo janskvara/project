@@ -12,11 +12,11 @@ width = 800
 height = 600
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
-driver.set_window_rect(_x_position, _y_position, width , height)
+driver.set_window_rect(_x_position, _y_position, width, height)
 
 # get chromedinoS
 driver.get("https://chromedino.com")
- 
+
 # set window position
 count = 0
 
