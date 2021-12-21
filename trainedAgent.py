@@ -1,4 +1,4 @@
-from grabScreen import grab_screen
+from environment import Environment
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from fastai.vision.all import *
@@ -27,11 +27,8 @@ def decide(learner):
     _y_position = 0
     width = 800
 
-    image = grab_screen(region = (_x_position + 100, _y_position + 300, width, 200))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # convert to binary colors
-    (_, image) = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+    environment = Environment(_x_position + 100, _y_position + 300, width, 200)
+    image = environment.getWhiteBlackScreen()
     cv2.imshow('Bot View', image)
     cv2.waitKey(1)
 
