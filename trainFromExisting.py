@@ -4,6 +4,7 @@ from pathlib import Path
 def label_func(x): return x.parent.name
 
 arch = xresnet18_deep
+epochs = 5
 archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     #learner.lr_find()
     #learner.fine_tune(2, 3e-3)
     #learner.show_results()
-    learner.fit(1)
-    modelpath = Path(__file__).parent.resolve() / f"jobData/model_{name}.pkl"
+    learner.fit(epochs)
+    modelpath = Path(__file__).parent.resolve() / f"jobData/model_{name}-{str(epochs)}.pkl"
     print(modelpath)
     learner.export(modelpath)
