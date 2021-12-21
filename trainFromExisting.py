@@ -3,7 +3,9 @@ from pathlib import Path
 
 def label_func(x): return x.parent.name
 
-arch = resnet18
+arch = xresnet18_deep
+archname = str(arch)
+name = archname[10:int(len(archname))-23]
 
 def train():
     path = r'.\dataset'
@@ -24,6 +26,6 @@ if __name__ == '__main__':
     #learner.fine_tune(2, 3e-3)
     #learner.show_results()
     learner.fit(1)
-    modelpath = Path(__file__).parent.resolve() / f"jobData/model_{str(arch)}.pkl"
+    modelpath = Path(__file__).parent.resolve() / f"jobData/model_{name}.pkl"
     print(modelpath)
     learner.export(modelpath)
