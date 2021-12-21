@@ -1,4 +1,3 @@
-from torch._C import wait
 from grabScreen import grab_screen
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
@@ -17,7 +16,7 @@ def scan_for_restart(): # scans for the game restart
         print('RESTART')
         keyboard.press_and_release('space')
 
-def load(path):
+def load(path): # loads trained model
     learner = load_learner(path)
     print('Model loaded.')
     return(learner)
@@ -82,6 +81,6 @@ def run():
         prevKey = keyToPress
 
 if __name__ == '__main__':
-    learner = load('dataset\model.pkl')
+    learner = load('jobData\model.pkl')
     run()
 

@@ -20,5 +20,5 @@ if __name__ == '__main__':
     #learner.lr_find()
     #learner.fine_tune(2, 3e-3)
     #learner.show_results()
-    learner.fit(10)
-    learner.export('jobData\model.pkl')
+    learner.fit(5)
+    learner.export('model.pkl')
