@@ -3,7 +3,7 @@ from pathlib import Path
 
 def label_func(x): return x.parent.name
 
-arch = xresnet18_deep
+arch = xresnet18_deeper
 epochs = 5
 archname = str(arch)
 name = archname[10:int(len(archname))-23]
