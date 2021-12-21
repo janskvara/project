@@ -13,13 +13,12 @@ def train():
     print("Loaded")
     return(learn)
 
-
 if __name__ == '__main__':
     learner = train()
-    learner.export('model.pkl')
     #interp = ClassificationInterpretation.from_learner(learner)
     #interp.plot_confusion_matrix(figsize=(6,6))
-    learner.lr_find()
+    #learner.lr_find()
     #learner.fine_tune(2, 3e-3)
-    learner.show_results()
-    learner.fit(1)
+    #learner.show_results()
+    learner.fit(10)
+    learner.export('jobData\model.pkl')

@@ -11,7 +11,7 @@ import cv2
 def label_func(x): return x.parent.name
 
 def scan_for_restart(): # scans for the game restart
-    result = pyautogui.locateOnScreen(r'dataset\restart.png', grayscale=True, region=(100, 150, 400, 350), confidence=0.9) 
+    result = pyautogui.locateOnScreen(r'jobData\restart.png', grayscale=True, region=(100, 150, 400, 350), confidence=0.9) 
     if result != None: # restart button located
         time.sleep(1)
         print('RESTART')
