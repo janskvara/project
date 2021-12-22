@@ -31,7 +31,7 @@ while not keyboard.is_pressed("e"):
     cv2.imshow('Bot View', image)
     cv2.waitKey(1)
 
-    if keyboard.is_pressed(' '):
+    if keyboard.is_pressed(' ') or keyboard.is_pressed('up'):
         cv2.imwrite(f"{_up_path}\{uuid.uuid4()}.jpg", image)
         continue
 
