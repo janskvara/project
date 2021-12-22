@@ -22,12 +22,6 @@ def load(path): # loads trained model
     return(learner)
 
 def decide(learner):
-    # set window position
-    _x_position = 0
-    _y_position = 0
-    width = 800
-
-    environment = Environment(_x_position + 100, _y_position + 300, width, 200)
     image = environment.getWhiteBlackScreen()
     cv2.imshow('Bot View', image)
     cv2.waitKey(1)
@@ -39,17 +33,6 @@ def decide(learner):
     return action #ddown / dnothing / dup
 
 def run():
-    # set window position
-    _x_position = 0
-    _y_position = 0
-    width = 800
-    height = 600
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-    driver.set_window_rect(_x_position, _y_position, width, height)
-
-    # get chromedinoS
-    driver.get("https://chromedino.com")
-
     prevKey = None
     keyboard.press_and_release('space') #game start
     
@@ -78,6 +61,7 @@ def run():
         prevKey = keyToPress
 
 if __name__ == '__main__':
-    learner = load('jobData\model.pkl')
+    environment = Environment()
+    learner = load('jobData\model_resnet18-5.pkl')
     run()
 
