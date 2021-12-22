@@ -18,13 +18,13 @@ class Environment():
 
     def __init__(self):
 
-        driver = webdriver.Chrome(ChromeDriverManager().install())
-        driver.set_window_rect(self._window_x_position, self._window_y_position, self._window_width, self._window_height)
-        driver.get("https://chromedino.com")
+        self._browser_driver = webdriver.Chrome(ChromeDriverManager().install())
+        self._browser_driver.set_window_rect(self._window_x_position, self._window_y_position, self._window_width, self._window_height)
+        self._browser_driver.get("https://chromedino.com")
         self._x_position = self._window_x_position  + 100
         self._y_position = self._window_y_position + 200
         self._width =  self._window_width - 50
-        self._window_height =  200
+        self._height =  200
 
     def getWhiteBlackScreen(self) -> any:
 
