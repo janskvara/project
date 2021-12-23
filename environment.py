@@ -25,8 +25,8 @@ class Environment():
         #"""Ondra PC
         self._x_position = self._window_x_position + 50
         self._y_position = self._window_y_position + 240
-        self._width =  self._window_width
-        self._height = 200
+        self._width =  self._window_width - 120
+        self._height = 150
         #"""
         """Jenda PC
         self._x_position = self._window_x_position + 100

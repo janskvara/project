@@ -1,5 +1,6 @@
 from fastai.vision.all import *
 from pathlib import Path
+from PIL import Image
 
 def label_func(x): return x.parent.name
 
@@ -12,6 +13,14 @@ def train():
     path = r'.\dataset'
     namesList = get_image_files(path)
     print(f"Total Images:{len(namesList)}")
+
+    # checks if each image has resolution of 800x200, if not, resizes it
+    for item in namesList:
+        img = Image.open(item)
+        wid, hgt = img.size
+        if wid != 800 or hgt != 200:
+            img_res = img.resize((800, 200))
+            img_res.save(item)
 
     dls = ImageDataLoaders.from_path_func(path, namesList, label_func, bs=16)
 
