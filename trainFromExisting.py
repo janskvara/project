@@ -5,11 +5,11 @@ from PIL import Image
 def label_func(x): return x.parent.name
 
 arch = resnet18
-epochs = 5
+epochs = 6
 archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
-def train():
+def train():uhik
     path = r'.\dataset'
     namesList = get_image_files(path)
     print(f"Total Images:{len(namesList)}")
