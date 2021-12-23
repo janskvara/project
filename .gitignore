@@ -25,3 +25,4 @@ __pycache__/
 
 *.xlsx
 *.ini
+jobData/xresnet50.pkl
