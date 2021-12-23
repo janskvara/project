@@ -22,24 +22,24 @@ class Environment():
         self._browser_driver.set_window_rect(self._window_x_position, self._window_y_position, self._window_width, self._window_height)
         self._browser_driver.get("https://chromedino.com")
 
-        #"""Ondra PC
+        """Ondra PC
         self._x_position = self._window_x_position + 50
         self._y_position = self._window_y_position + 240
         self._width =  self._window_width - 120
         self._height = 150
-        #"""
+        """
         """Jenda PC
         self._x_position = self._window_x_position + 100
         self._y_position = self._window_y_position + 200
         self._width =  self._window_width - 50
         self._height =  200
         """
-        """Vašek PC - nastav si
-        self._x_position = self._window_x_position + 100
-        self._y_position = self._window_y_position + 200
-        self._width =  self._window_width - 50
-        self._height =  200
-        """
+        # """Vašek PC - nastav si
+        self._x_position = self._window_x_position + 50
+        self._y_position = self._window_y_position + 240
+        self._width =  self._window_width - 120
+        self._height = 150
+        # """
 
     def getWhiteBlackScreen(self) -> any:
 
