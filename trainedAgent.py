@@ -64,4 +64,3 @@ if __name__ == '__main__':
     environment = Environment()
     learner = load('jobData\model_resnet18-5.pkl')
     run()
-
