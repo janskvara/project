@@ -34,7 +34,7 @@ class Environment():
         self._width =  self._window_width - 50
         self._height =  200
         """
-        # """Vašek PC - nastav si
+        # """Vašek PC
         self._x_position = self._window_x_position + 50
         self._y_position = self._window_y_position + 240
         self._width =  self._window_width - 120

@@ -4,7 +4,7 @@ from PIL import Image
 
 def label_func(x): return x.parent.name
 
-arch = xresnet18
+arch = resnet18
 epochs = 5
 archname = str(arch)
 name = archname[10:int(len(archname))-23]
