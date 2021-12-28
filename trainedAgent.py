@@ -21,9 +21,9 @@ def load(path): # loads trained model
     print('Model loaded.')
     return(learner)
 
-def decide(learner):
+def decide(learner): 
     image = environment.getWhiteBlackScreen()
-    cv2.imshow('Bot View', image)
+    cv2.imshow('Bot View', image) 
     cv2.waitKey(1)
 
     # Decide about next step
