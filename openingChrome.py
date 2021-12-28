@@ -26,12 +26,12 @@ environment = Environment()
 # Collets images until you press e
 while not keyboard.is_pressed("e"):
     count += 1
-    image = environment.getWhiteBlackScreen()
-
+    
+    image = environment.getScreen()
     cv2.imshow('Bot View', image)
     cv2.waitKey(1)
 
-    if keyboard.is_pressed(' '):
+    '''if keyboard.is_pressed(' '):
         cv2.imwrite(f"{_up_path}\{uuid.uuid4()}.jpg", image)
         continue
 
@@ -40,4 +40,4 @@ while not keyboard.is_pressed("e"):
         continue
 
     if count%20 == 0:
-        cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)
+        cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)'''
