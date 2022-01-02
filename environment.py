@@ -10,6 +10,7 @@ import time
 class Environment():
 
     pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'  # your path may be different
+    # pytesseract.pytesseract.tesseract_cmd = r'D:/Program Files (x86)/TesseractOCR/tesseract.exe'
     _window_x_position = 0
     _window_y_position = 0
     _window_width = 800
