@@ -197,5 +197,6 @@ class Environment():
         memdc.DeleteDC()
         win32gui.ReleaseDC(hwin, hwindc)
         win32gui.DeleteObject(bmp.GetHandle())
+        new_frame = cv2.resize(img, (84,84), interpolation=cv2.INTER_AREA)
 
-        return cv2.cvtColor(img, cv2.COLOR_BGRA2RGB)
+        return cv2.cvtColor(new_frame, cv2.COLOR_BGRA2RGB)

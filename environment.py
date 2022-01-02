@@ -9,8 +9,6 @@ import time
 
 class Environment():
 
-    pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'  # your path may be different
-    # pytesseract.pytesseract.tesseract_cmd = r'D:/Program Files (x86)/TesseractOCR/tesseract.exe'
     _window_x_position = 0
     _window_y_position = 0
     _window_width = 800
@@ -34,11 +32,21 @@ class Environment():
         self._y_position = self._window_y_position + 220
         self.width =  self._window_width - 100
         self.height =  150
-        self._game_over_image = cv2.imread(r'jobData\restart.png')
+
+        #shape=(84,84,1)
+        #self.shape=(shape[2], shape[0], shape[1])
+        self.shape = (1, 84, 84)
     
-    def reset(self):
-        time.sleep(0.3)
-        keyboard.press_and_release('space') #game start
+    def reset(self) -> any:
+        keyboard.press('up') #game start
+        time.sleep(0.1)
+        keyboard.release('up') #game start
+        time.sleep(2)
+
+        self.start_time = time.time()
+        self.actual_image = self.getScreen()
+        self.black_white_image = self.getWhiteBlackScreen()
+        return self.black_white_image
 
     def close(self):
         print("ZATVARAME :)")
@@ -51,43 +59,32 @@ class Environment():
         if(action == 1.0):
             keyboard.press_and_release('down') #down
         
-        if(action == 2.0):
+        if(action == 2.0): #do nothing
             pass
-            #do nothing
-
+        
         self.actual_image = self.getScreen()
+        self.black_white_image = self.getWhiteBlackScreen()
         self.actual_reward = self.getReward()
         self.done = self.getDone()
 
-        return self.actual_image, self.actual_reward, self.done
+        return self.black_white_image, self.actual_reward, self.done
 
     def getDone(self) -> bool:
 
-        image = self.actual_image
-        image_with_game_over = image[int(self.height * 0.25): int(self.height * 0.75), int(self.width*0.25) : int(self.width*0.75)]
-        text = pytesseract.image_to_string(image_with_game_over)
-        if "OVER" in text:
+        if self.black_white_image[34][33] == 0:
             return True
         return False
 
     def getReward(self) -> any:
 
-        image = self.actual_image
-        image_with_number = image[0: int(self.height * 0.3), int(self.width*0.8) : self.width]
-        text = pytesseract.image_to_string(image_with_number)
-        try:
-            self.actual_reward = int(text[1:])
-            #print(text[1:])
-        except:
-            self.actual_reward = self.actual_reward
-
-        return self.actual_reward
+        return (time.time() - self.start_time) * 10.0
 
     def getWhiteBlackScreen(self) -> any:
 
         image = cv2.cvtColor(self.actual_image, cv2.COLOR_BGR2GRAY)
         (thresh, image) = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
-        return image
+        self.black_white_image = image
+        return self.black_white_image
 
     def getScreen(self) -> any:
         
@@ -109,4 +106,6 @@ class Environment():
         win32gui.ReleaseDC(hwin, hwindc)
         win32gui.DeleteObject(bmp.GetHandle())
 
-        return cv2.cvtColor(img, cv2.COLOR_BGRA2RGB)
+        new_frame = cv2.resize(img, (84,84), interpolation=cv2.INTER_AREA)
+
+        return cv2.cvtColor(new_frame, cv2.COLOR_BGRA2RGB)

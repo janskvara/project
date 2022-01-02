@@ -13,7 +13,7 @@ import torch as T
 from utils import plot_learning_curve, loss_plot, save_frames_as_gif, clip_reward
 import env
 #from env import make_env
-from env import Environment
+from environment import Environment
 from replay import ReplayBuffer
 
 
@@ -84,7 +84,7 @@ class DeepQ(nn.Module):
         if not os.path.exists('models'):
             os.makedirs('models')
         print ("checkpoint saved...")
-        #T.save(self.state_dict(), self.checkpoint_file)
+        T.save(self.state_dict(), self.checkpoint_file)
     
     def load_checkpoint(self):
         print("checkpoint loaded...")
@@ -241,7 +241,7 @@ if __name__ == '__main__':
 
 
     agent = Agent(gamma=0.99,lr=0.0001, input_dims=(env.shape),
-                    n_actions = env.action_space.size, mem_size=10000, batch_size=32, replace=1000, temperature=0.2, temp_min=0.0004, temp_dec1 = 1e-6, temp_dec2 = 1e-8,
+                    n_actions = env.action_space.size, mem_size=10000, batch_size=32, replace=500, temperature=0.2, temp_min=0.0004, temp_dec1 = 1e-6, temp_dec2 = 1e-8,
                     chkpt_dir='models/', algo='DuelingDoubleDQNAgent', 
                     env_name='Dyno') #epsilon = 1.0
     
