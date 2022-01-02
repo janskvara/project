@@ -66,5 +66,5 @@ if __name__ == '__main__':
     pathlib.PosixPath = pathlib.WindowsPath
      
     environment = Environment()
-    learner = load('jobData\model_squeezene-5.pkl')
+    learner = load('jobData\model_ale-10.pkl')
     run()
