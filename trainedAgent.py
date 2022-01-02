@@ -61,6 +61,10 @@ def run():
         prevKey = keyToPress
 
 if __name__ == '__main__':
+    import pathlib
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
+     
     environment = Environment()
     learner = load('jobData\model_squeezene-5.pkl')
     run()
