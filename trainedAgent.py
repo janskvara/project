@@ -61,10 +61,12 @@ def run():
         prevKey = keyToPress
 
 if __name__ == '__main__':
+    
+    # for models trained on colab
     import pathlib
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
-     
+    
     environment = Environment()
     learner = load('jobData\model_ale-10.pkl')
     run()
