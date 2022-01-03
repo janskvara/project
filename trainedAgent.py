@@ -39,7 +39,7 @@ def run():
     # decide about next moves until user presses 'e' key
     while not keyboard.is_pressed("e"):
 
-        scan_for_restart()
+        #scan_for_restart()
         action = decide(learner)
 
         # transfer from directory name to key name
@@ -51,14 +51,15 @@ def run():
             continue # do nothing
 
         # key hold or switch of the key that is being held
-        if keyToPress == prevKey:
+        keyboard.press_and_release(keyToPress)
+        '''if keyToPress == prevKey:
             continue
         elif keyToPress != prevKey:
             if prevKey != None:
                 keyboard.release(prevKey)
             keyboard.press(keyToPress)
             print('Input: ' + keyToPress)
-        prevKey = keyToPress
+        prevKey = keyToPress'''
 
 if __name__ == '__main__':
     
@@ -68,5 +69,5 @@ if __name__ == '__main__':
     pathlib.PosixPath = pathlib.WindowsPath
     
     environment = Environment()
-    learner = load('jobData\model_ale-10.pkl')
+    learner = load('jobData\model_resn-6.pkl')
     run()
