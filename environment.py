@@ -20,7 +20,7 @@ class Environment():
 
     width = 0 
     height = 0
-    action_space = np.array([0.0, 1.0, 2.0], dtype=np.float32) #["up", "down", "none"]
+    action_space = np.array([0.0, 1.0], dtype=np.float32) #["up", "down", "none"]
 
     actual_reward = 0
 
@@ -51,16 +51,30 @@ class Environment():
 
     def close(self):
         print("ZATVARAME :)")
-    
+
     def step(self, action):
+        t_reward = 0.0
+        done = False
+        frame_buffer = np.zeros_like((2,self.shape), dtype=object)
+        for i in range(4):
+            obs, reward, done = self._step(action)
+            t_reward += reward
+            idx = i % 2
+            frame_buffer[idx] = obs
+            if done:
+                break
+            time.sleep(0.2)
+        
+        max_frame = np.maximum(frame_buffer[0], frame_buffer[1])
+        return max_frame, t_reward, done
+
+    
+    def _step(self, action):
 
         if(action == 0.0):
             keyboard.press_and_release('up') #up
         
-        if(action == 1.0):
-            keyboard.press_and_release('down') #down
-        
-        if(action == 2.0): #do nothing
+        if(action == 1.0):#do nothing
             pass
         
         self.actual_image = self.getScreen()
@@ -78,7 +92,7 @@ class Environment():
 
     def getReward(self) -> any:
 
-        return (time.time() - self.start_time) * 10.0
+        return (time.time() - self.start_time)
 
     def getWhiteBlackScreen(self) -> any:
 
@@ -108,5 +122,6 @@ class Environment():
         win32gui.DeleteObject(bmp.GetHandle())
 
         new_frame = cv2.resize(img, (84,84), interpolation=cv2.INTER_AREA)
+        self.actual_image = new_frame
 
         return cv2.cvtColor(new_frame, cv2.COLOR_BGRA2RGB)

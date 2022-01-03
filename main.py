@@ -91,7 +91,8 @@ class DeepQ(nn.Module):
 
 class Agent():
     def __init__(self, lr, input_dims, n_actions, mem_size, batch_size,
-                replace,chkpt_dir, gamma, temperature, temp_min, temp_dec1, temp_dec2, algo=None, env_name=None,
+                replace,chkpt_dir, gamma, epsilon_decay =  1 / 20, #temperature, temp_min, temp_dec1, temp_dec2, 
+                algo=None, env_name=None,
                 ): #epsilon
         self.lr = lr
         self.input_dims = input_dims
@@ -102,14 +103,15 @@ class Agent():
         self.chkpt_dir = chkpt_dir
         self.n_actions = n_actions
         self.gamma = gamma
-        #self.epsilon = epsilon
-        self.temp_dec1 = temp_dec1
-        self.temp_dec2 = temp_dec2
-        self.temp_min = temp_min
+        self.epsilon_decay = epsilon_decay
+        #self.temp_dec1 = temp_dec1
+        #self.temp_dec2 = temp_dec2
+        #self.temp_min = temp_min
         self.action_space = [i for i in range(self.n_actions)]
         self.learn_step_count = 0
         self.beta = 0.4
-        self.temperature = temperature
+        self.epsilon = 1.0
+        #self.temperature = temperature
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions)
 
         
@@ -127,7 +129,7 @@ class Agent():
         Starting with higher temperature and decreasing the temperature so the probabilities will be sckewed to the highest probability.
         """
             
-        state = T.tensor([observation], dtype=T.float32).to(self.q_eval.device)
+        ''''state = T.tensor([observation], dtype=T.float32).to(self.q_eval.device)
         _, advantage = self.q_eval.forward(state)
         soft = nn.Softmax(dim=-1)
         prob = soft(advantage/self.temperature)
@@ -138,7 +140,15 @@ class Agent():
         if action == T.argmax(advantage).item():
             greedy.append(0)
         else: 
-            greedy.append(1)
+            greedy.append(1)'''
+        
+        # epsilon greedy policy
+        if self.epsilon > np.random.random():
+            action = np.random.choice(self.n_actions)
+        else:
+            state = T.tensor([observation], dtype=T.float32).to(self.q_eval.device)
+            action = self.q_eva.forward(state).argmax()
+            action = action.detach().cpu().numpy()
 
         return action
 
@@ -175,7 +185,14 @@ class Agent():
           else:
             self.temperature = self.temperature - self.temp_dec2 if self.temperature > self.temp_min else self.temp_min
 
-        
+    def decrement_epsilon(self):
+        min_epsilon = 0.05
+        max_epsilon = 1.0
+        self.epsilon = max(
+                    min_epsilon, self.epsilon - (
+                        max_epsilon - min_epsilon
+                    ) * self.epsilon_decay
+                )
 
     def save(self):
         self.q_eval.save_checkpoint()
@@ -225,7 +242,8 @@ class Agent():
 
         self.q_eval.optimizer.step()
         self.learn_step_count +=1
-        self.decrement_temperature()
+        #self.decrement_temperature()
+        self.decrement_epsilon()
 
 if __name__ == '__main__':
     env = Environment()
@@ -239,7 +257,7 @@ if __name__ == '__main__':
 
 
     agent = Agent(gamma=0.99,lr=0.0001, input_dims=(env.shape),
-                    n_actions = env.action_space.size, mem_size=10000, batch_size=32, replace=500, temperature=0.2, temp_min=0.0004, temp_dec1 = 1e-6, temp_dec2 = 1e-8,
+                    n_actions = env.action_space.size, mem_size=10000, batch_size=64, replace=100,
                     chkpt_dir='models/', algo='DuelingDoubleDQNAgent', 
                     env_name='Dyno') #epsilon = 1.0
     
@@ -304,8 +322,8 @@ if __name__ == '__main__':
         avg_score = np.mean(scores[-25:])
         t1 = time.time()
         t = t1-t0
-        print('episode', i, 'last score %.0f, average score %.2f, best score %.2f, temperature %.4f, softmax greedy %.4f,' %
-            (score, avg_score, best_score, agent.temperature, np.sum(greedy)/len(greedy)),
+        print('episode', i, 'last score %.0f, average score %.2f, best score %.2f, epsilon %.4f ' %
+            (score, avg_score, best_score, agent.epsilon),
             'steps ', n_steps, 'time ', t)
 
         with open ('last_score.txt', 'a') as fl:
