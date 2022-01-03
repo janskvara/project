@@ -35,9 +35,9 @@ while not keyboard.is_pressed("e"):
         cv2.imwrite(f"{_up_path}\{uuid.uuid4()}.jpg", image)
         continue
 
-    if keyboard.is_pressed('down'):
+    elif keyboard.is_pressed('down'):
         cv2.imwrite(f"{_down_path}\{uuid.uuid4()}.jpg", image)
         continue
-
-    if count%20 == 0:
+    
+    else:
         cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)
