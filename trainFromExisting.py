@@ -1,6 +1,5 @@
 from fastai.vision.all import *
 from pathlib import Path
-from PIL import Image
 
 def label_func(x): return x.parent.name
 

@@ -1,10 +1,6 @@
 from environment import Environment
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
 from fastai.vision.all import *
 import keyboard
-import time
-import pyautogui as pyautogui
 import cv2
 import pathlib
 

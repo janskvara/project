@@ -1,5 +1,3 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 import cv2
 import os
 import keyboard
@@ -9,15 +7,15 @@ import uuid
 # set window position
 count = 0
 
-_up_path = r'.\dataset\dup84' 
+_up_path = r'.\dataset84\dup84' 
 if not os.path.exists(_up_path):
     os.makedirs(_up_path)
 
-_down_path = r'.\dataset\ddown84' 
+_down_path = r'.\dataset84\ddown84' 
 if not os.path.exists(_down_path):
     os.makedirs(_down_path)
 
-_nothing_path = r'.\dataset\dnothing84' 
+_nothing_path = r'.\dataset84\dnothing84' 
 if not os.path.exists(_nothing_path):
     os.makedirs(_nothing_path)
 
