@@ -271,7 +271,9 @@ if __name__ == '__main__':
     n_steps = 0
     scores, eps_history, steps_array, losses, greedy_hist = [], [], [], [], []
     
-    for i in range(n_games):
+    i = -1
+    while True:
+        i = i + 1
         t0 = time.time()
         done = False
         obs = env.reset()
@@ -346,5 +348,5 @@ if __name__ == '__main__':
         #eps_history.append(agent.epsilon)
         greedy_hist.append(np.sum(greedy)/len(greedy))
 
-    plot_learning_curve(steps_array, scores, greedy_hist, figure_file)
-    loss_plot(losses, losses_file)
+    #plot_learning_curve(steps_array, scores, greedy_hist, figure_file)
+    #loss_plot(losses, losses_file)
