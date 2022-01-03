@@ -320,10 +320,10 @@ if __name__ == '__main__':
             fl.write('%.0f %.0f\n' %(n_steps, t))
 
         with open ('logs/epsilon.txt', 'a') as fl:
-            fl.write('%.0f\n' %(agent.epsilon))
+            fl.write('%.4f\n' %(agent.epsilon))
         
         with open ('logs/loss.txt', 'a') as fl:
-            fl.write('%.0f\n' %(agent.loss.item()))
+            fl.write('%.4f\n' %(agent.loss.item()))
     
         if avg_score > prev_avg:
             agent.save()
