@@ -16,7 +16,6 @@ import env
 from environment import Environment
 from replay import ReplayBuffer
 
-
 class DeepQ(nn.Module):
     """
     Dueling double Deep Q-Learning with Pytorch.
@@ -226,7 +225,6 @@ class Agent():
 
         self.q_eval.optimizer.step()
         self.learn_step_count +=1
-       
         self.decrement_temperature()
 
 if __name__ == '__main__':
@@ -309,6 +307,15 @@ if __name__ == '__main__':
         print('episode', i, 'last score %.0f, average score %.2f, best score %.2f, temperature %.4f, softmax greedy %.4f,' %
             (score, avg_score, best_score, agent.temperature, np.sum(greedy)/len(greedy)),
             'steps ', n_steps, 'time ', t)
+
+        with open ('last_score.txt', 'a') as fl:
+            fl.write('%.0f\n' %(score))
+
+        with open ('avg_score.txt', 'a') as fl:
+            fl.write('%.0f \n' %(avg_score))
+        
+        with open ('times.txt', 'a') as fl:
+            fl.write('%.0f %.0f\n' %(n_steps, t))
     
         if avg_score > prev_avg:
             if not load_checkpoint:
@@ -316,8 +323,8 @@ if __name__ == '__main__':
                 prev_avg = avg_score              
 
         if score > best_score:    
-          best_score = score
-        #I also tried to use Decaying Epsilon Greedy 
+            best_score = score
+        #I also tried to use Decaying Epsilon Greedy
         #eps_history.append(agent.epsilon)
         greedy_hist.append(np.sum(greedy)/len(greedy))
 

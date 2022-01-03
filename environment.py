@@ -6,9 +6,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pytesseract
 import keyboard
 import time
+KMP_DUPLICATE_LIB_OK='TRUE'
 
 class Environment():
-
+    
     _window_x_position = 0
     _window_y_position = 0
     _window_width = 800
@@ -32,7 +33,7 @@ class Environment():
         self._y_position = self._window_y_position + 220
         self.width =  self._window_width - 100
         self.height =  150
-
+        
         #shape=(84,84,1)
         #self.shape=(shape[2], shape[0], shape[1])
         self.shape = (1, 84, 84)
