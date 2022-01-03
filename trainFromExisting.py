@@ -9,13 +9,13 @@ archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
 def train():
-    path = r'.\dataset'
+    path = r'.\dataset84'
     namesList = get_image_files(path)
     print(f"Total Images:{len(namesList)}")
 
-    dls = ImageDataLoaders.from_path_func(path, namesList, label_func, bs=16)
+    dls = ImageDataLoaders.from_path_func(path, namesList, label_func, bs=32)
 
-    learn = cnn_learner(dls, arch, pretrained=True, metrics=accuracy)
+    learn = cnn_learner(dls, arch, pretrained=False, metrics=accuracy)
     print("Loaded")
     return(learn)
 

@@ -14,9 +14,9 @@ done = False
 while not done:
     count += 1
 
-    image, reward, done = environment.step(2.0)
+    image, reward, done = environment._step(2.0)
     print("Reward: {} done:  + {}".format(reward, done))
 
-    new_frame = cv2.resize(image, (840,840), interpolation=cv2.INTER_AREA)
-    cv2.imshow('Bot View', new_frame)
+    #new_frame = cv2.resize(image, (840,840))
+    cv2.imshow('Bot View', image)
     cv2.waitKey(1)

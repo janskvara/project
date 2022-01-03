@@ -13,7 +13,7 @@ _up_path = r'.\dataset\dup84'
 if not os.path.exists(_up_path):
     os.makedirs(_up_path)
 
-_down_path = r'.\dataset\ddown' 
+_down_path = r'.\dataset\ddown84' 
 if not os.path.exists(_down_path):
     os.makedirs(_down_path)
 
@@ -41,5 +41,4 @@ while not keyboard.is_pressed("e"):
         cv2.imwrite(f"{_down_path}\{uuid.uuid4()}.jpg", image)
         continue
 
-    if count%20 == 0:
-        cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)
+    cv2.imwrite(f"{_nothing_path}\{uuid.uuid4()}.jpg", image)
