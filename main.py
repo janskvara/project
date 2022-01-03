@@ -9,9 +9,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import torch as T
+import torch
 
-from utils import plot_learning_curve, loss_plot, save_frames_as_gif, clip_reward
-import env
+from utils import clip_reward
 #from env import make_env
 from environment import Environment
 from replay import ReplayBuffer
@@ -91,7 +91,7 @@ class DeepQ(nn.Module):
 
 class Agent():
     def __init__(self, lr, input_dims, n_actions, mem_size, batch_size,
-                replace,chkpt_dir, gamma, epsilon_decay =  1 / 20, #temperature, temp_min, temp_dec1, temp_dec2, 
+                replace,chkpt_dir, gamma, epsilon_decay =  1 / 20000, #temperature, temp_min, temp_dec1, temp_dec2, 
                 algo=None, env_name=None,
                 ): #epsilon
         self.lr = lr
@@ -114,6 +114,7 @@ class Agent():
         #self.temperature = temperature
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions)
 
+        self.loss = 0
         
         self.q_eval = DeepQ(self.lr, self.n_actions, input_dims = self.input_dims,
                             name = self.env_name+'_'+self.algo+'_q_eval',
@@ -147,8 +148,8 @@ class Agent():
             action = np.random.choice(self.n_actions)
         else:
             state = T.tensor([observation], dtype=T.float32).to(self.q_eval.device)
-            action = self.q_eva.forward(state).argmax()
-            action = action.detach().cpu().numpy()
+            _, advantage = self.q_eval.forward(state)
+            action = torch.argmax(advantage).item()
 
         return action
 
@@ -186,7 +187,7 @@ class Agent():
             self.temperature = self.temperature - self.temp_dec2 if self.temperature > self.temp_min else self.temp_min
 
     def decrement_epsilon(self):
-        min_epsilon = 0.05
+        min_epsilon = 0.01
         max_epsilon = 1.0
         self.epsilon = max(
                     min_epsilon, self.epsilon - (
@@ -235,10 +236,10 @@ class Agent():
             idx = batch[i]
             self.memory.set_priorities(idx, diff[i].cpu().detach().numpy())
 
-        loss = (T.cuda.FloatTensor(importance) * F.smooth_l1_loss(q_pred, q_target)).mean().to(self.q_eval.device)
-        loss.backward()
+        self.loss = (T.cuda.FloatTensor(importance) * F.smooth_l1_loss(q_pred, q_target)).mean().to(self.q_eval.device)
+        self.loss.backward()
 
-        losses.append(loss.item())
+        losses.append(self.loss.item())
 
         self.q_eval.optimizer.step()
         self.learn_step_count +=1
@@ -257,12 +258,12 @@ if __name__ == '__main__':
 
 
     agent = Agent(gamma=0.99,lr=0.0001, input_dims=(env.shape),
-                    n_actions = env.action_space.size, mem_size=10000, batch_size=64, replace=100,
+                    n_actions = env.action_space.size, mem_size=20000, batch_size=64, replace=400,
                     chkpt_dir='models/', algo='DuelingDoubleDQNAgent', 
                     env_name='Dyno') #epsilon = 1.0
     
-    if load_checkpoint: 
-        agent.load()
+    #if load_checkpoint: 
+    #    agent.load()
 
     filename = agent.algo +'_'+agent.env_name + '_lr' + str(agent.lr) + '_' + str(n_games) + '_games'
     figure_file = 'plots/' + filename +'.png'
@@ -284,40 +285,21 @@ if __name__ == '__main__':
 
         while not done:
 
-            ''''if i  < 275:
-              if i % 25 == 0:
-                frames.append(env.render(mode='rgb_array'))
-            else:
-              if i % 5 == 0:
-                frames.append(env.render(mode='rgb_array'))'''
-
             action = agent.choose_action(obs)
             next_obs, reward, done = env.step(action)
-            '''if info['ale.lives'] >= previous_life:
-                done_store = done
-            else:
-                done_store = True
-            previous_life = info['ale.lives']'''
+            if done:
+                break
+
             score += reward
             reward = clip_reward(reward)
 
             #I have tried clipping the rewards to control the loss function, but learned that this would only result less "certain" predictions in terms of the next Action to take.  
             #reward = np.clip(reward,0, 1)
-
-            if not load_checkpoint:
-                agent.store(obs, action, reward, next_obs, int(done_store))
-                agent.learn()
+            agent.store(obs, action, reward, next_obs, int(done_store))
+            agent.learn()
 
             obs = next_obs
-            n_steps += 1
-          
-        '''if i  < 275:
-          if i % 25 == 0:
-            save_frames_as_gif(frames,i)
-        else:
-          if i % 5 == 0:
-            save_frames_as_gif(frames,i)'''
-        
+            n_steps += 1        
         
         scores.append(score)
         steps_array.append(n_steps)
@@ -328,19 +310,24 @@ if __name__ == '__main__':
             (score, avg_score, best_score, agent.epsilon),
             'steps ', n_steps, 'time ', t)
 
-        with open ('last_score.txt', 'a') as fl:
+        with open ('logs/last_score.txt', 'a') as fl:
             fl.write('%.0f\n' %(score))
 
-        with open ('avg_score.txt', 'a') as fl:
+        with open ('logs/avg_score.txt', 'a') as fl:
             fl.write('%.0f \n' %(avg_score))
         
-        with open ('times.txt', 'a') as fl:
+        with open ('logs/times.txt', 'a') as fl:
             fl.write('%.0f %.0f\n' %(n_steps, t))
+
+        with open ('logs/epsilon.txt', 'a') as fl:
+            fl.write('%.0f\n' %(agent.epsilon))
+        
+        with open ('logs/loss.txt', 'a') as fl:
+            fl.write('%.0f\n' %(agent.loss.item()))
     
         if avg_score > prev_avg:
-            if not load_checkpoint:
-                agent.save()
-                prev_avg = avg_score              
+            agent.save()
+            prev_avg = avg_score              
 
         if score > best_score:    
             best_score = score

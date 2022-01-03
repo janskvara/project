@@ -3,7 +3,6 @@ import numpy as np
 import win32gui, win32ui, win32con
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-import pytesseract
 import keyboard
 import time
 KMP_DUPLICATE_LIB_OK='TRUE'
@@ -20,7 +19,7 @@ class Environment():
 
     width = 0 
     height = 0
-    action_space = np.array([0.0, 1.0], dtype=np.float32) #["up", "down", "none"]
+    action_space = np.array([0.0, 1.0, 2.0], dtype=np.float32) #["up", "down", "none"]
 
     actual_reward = 0
 
