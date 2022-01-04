@@ -38,7 +38,11 @@ def run(learner):
 if __name__ == '__main__':
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
+<<<<<<< Updated upstream
     path = os.path.join('C:\SDU\AIG\project_master\jobData', 'model_resn18-5_84_150k.pkl')
+=======
+    path = os.path.join('C:\SDU\AIG\project_master\jobData', 'model_resn-5_84_150k.pkl')
+>>>>>>> Stashed changes
     learner = load(path)
     run(learner)
 
