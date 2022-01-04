@@ -19,8 +19,8 @@ class Environment():
 
     width = 0 
     height = 0
-    action_space = np.array([0.0, 1.0, 2.0], dtype=np.float32) #["up", "down", "none"]
-
+    #action_space = np.array([0.0, 1.0, 2.0], dtype=np.float32) #["up", "down", "none"]
+    simple_action_space = np.array([0.0, 1.0], dtype=np.float32) #["up", "down", "none"]
     actual_reward = 0
 
     def __init__(self):
@@ -36,6 +36,7 @@ class Environment():
         #shape=(84,84,1)
         #self.shape=(shape[2], shape[0], shape[1])
         self.shape = (1, 84, 84)
+        self.simple_shape = 336
     
     def reset(self) -> any:
         keyboard.press('up') #game start
@@ -47,6 +48,18 @@ class Environment():
         self.actual_image = self.getScreen()
         self.black_white_image = self.getWhiteBlackScreen()
         return self.black_white_image
+    
+    def simple_reset(self) -> any:
+        keyboard.press('up') #game start
+        time.sleep(0.1)
+        keyboard.release('up') #game start
+        time.sleep(2)
+
+        self.start_time = time.time()
+        self.actual_image = self.getScreen()
+        self.black_white_image = self.getWhiteBlackScreen()
+        self.row = np.concatenate((self.black_white_image[75], self.black_white_image[65], self.black_white_image[55],  self.black_white_image[45]))
+        return self.row
 
     def close(self):
         print("ZATVARAME :)")
@@ -69,6 +82,23 @@ class Environment():
         self.done = self.getDone()
 
         return self.black_white_image, self.actual_reward, self.done
+    
+    def simple_step(self, action):
+
+        if(action == 0.0):
+            keyboard.press_and_release('up')#up
+                
+        if(action == 1.0):#do nothing
+            pass
+        
+        self.actual_image = self.getScreen()
+        self.black_white_image = self.getWhiteBlackScreen()
+        self.actual_reward = self.getReward()
+        self.done = self.getDone()
+        self.row = np.concatenate((self.black_white_image[75], self.black_white_image[65], self.black_white_image[55],  self.black_white_image[45]))
+        if self.done :
+            self.actual_reward = -1
+        return self.row, self.actual_reward, self.done
 
     def getDone(self) -> bool:
 
@@ -107,7 +137,7 @@ class Environment():
         win32gui.ReleaseDC(hwin, hwindc)
         win32gui.DeleteObject(bmp.GetHandle())
 
-        new_frame = cv2.resize(img, self.shape[1:], interpolation=cv2.INTER_AREA)
+        new_frame = cv2.resize(img, self.shape[1:], interpolation=cv2.INTER_LINEAR)
         self.actual_image = new_frame
 
         return cv2.cvtColor(new_frame, cv2.COLOR_BGRA2RGB)
