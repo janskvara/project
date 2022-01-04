@@ -7,15 +7,15 @@ import uuid
 # set window position
 count = 0
 
-_up_path = r'.\dataset84_new\dup84' 
+_up_path = r'.\dataset84_new\ddup84' 
 if not os.path.exists(_up_path):
     os.makedirs(_up_path)
 
-_down_path = r'.\dataset84_new\ddown84' 
+_down_path = r'.\dataset84_new\dddown84' 
 if not os.path.exists(_down_path):
     os.makedirs(_down_path)
 
-_nothing_path = r'.\dataset84_new\dnothing84' 
+_nothing_path = r'.\dataset84_new\ddnothing84' 
 if not os.path.exists(_nothing_path):
     os.makedirs(_nothing_path)
 
