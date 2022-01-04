@@ -38,7 +38,7 @@ def run(learner):
 if __name__ == '__main__':
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
-    path = os.path.join('C:\SDU\AIG\project\jobData', 'model_squeezene-3_84_150k.pkl')
+    path = os.path.join('C:\SDU\AIG\project_master\jobData', 'model_resn18-5_84_150k.pkl')
     learner = load(path)
     run(learner)
 
