@@ -11,8 +11,8 @@ jano_bot = [2100]
 random_avg = np.average(random_data)
 random_avg_full = np.full((20,1),random_avg)
 
-d80_avg = np.average(data_80)
-d80_avg_full = np.full((20,1),d80_avg)
+d430_avg = np.average(data_430)
+d430_avg_full = np.full((20,1),d430_avg)
 
 bolt_avg = np.average(data_bolt_34)
 bolt_avg_full = np.full((20,1),bolt_avg)
@@ -25,8 +25,8 @@ plt.grid(linewidth=0.2)
 plt.plot(x, random_data, color='red', alpha=1, linewidth=0, marker='o', markersize=5)
 plt.plot(x, random_avg_full, color='red', alpha=1, linewidth=0.8)
 
-#plt.plot(x, data_80, color='blue', alpha=1, linewidth=0, marker='o', markersize=5)
-#plt.plot(x, d80_avg_full, color='blue', alpha=1, linewidth=0.8)
+plt.plot(x, data_430, color='blue', alpha=1, linewidth=0, marker='o', markersize=5)
+plt.plot(x, d430_avg_full, color='blue', alpha=1, linewidth=0.8)
 
 plt.plot(x, data_bolt_34, color='green', alpha=1, linewidth=0, marker='o', markersize=5)
 plt.plot(x, bolt_avg_full, color='green', alpha=1, linewidth=0.8)
