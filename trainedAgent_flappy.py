@@ -1,4 +1,4 @@
-from environment import Environment
+from environment_flappy import Environment
 from fastai.vision.all import *
 import keyboard
 import cv2

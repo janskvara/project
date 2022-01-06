@@ -1,17 +1,17 @@
 import cv2
 import os
 import keyboard
-from environment import Environment
+from environment_flappy import Environment
 import uuid
 
 # set window position
 count = 0
 
-_up_path = r'.\dataset84_new\df_up84' 
+_up_path = r'.\data_flappy\df_up84'
 if not os.path.exists(_up_path):
     os.makedirs(_up_path)
 
-_nothing_path = r'.\dataset84_new\dfnothing84' 
+_nothing_path = r'.\data_flappy\df_nothing84'
 if not os.path.exists(_nothing_path):
     os.makedirs(_nothing_path)
 

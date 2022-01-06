@@ -12,7 +12,7 @@ class Environment():
     _window_x_position = 0
     _window_y_position = 0
     _window_width = 800
-    _window_height = 600
+    _window_height = 1000
 
     _x_position = 0
     _y_position = 0
@@ -30,8 +30,8 @@ class Environment():
         self._browser_driver.get("https://flappybird.io/")
         self._x_position = self._window_x_position  + 50
         self._y_position = self._window_y_position + 220
-        self.width =  self._window_width - 100
-        self.height =  150
+        self.width =  self._window_width - 350
+        self.height =  600
         
         #shape=(84,84,1)
         #self.shape=(shape[2], shape[0], shape[1])
@@ -77,7 +77,7 @@ class Environment():
     def getWhiteBlackScreen(self) -> any:
 
         image = cv2.cvtColor(self.actual_image, cv2.COLOR_BGR2GRAY)
-        (thresh, image) = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+        (thresh, image) = cv2.threshold(image, 160, 255, cv2.THRESH_BINARY)
         self.black_white_image = image
         return self.black_white_image
 
