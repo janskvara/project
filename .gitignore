@@ -27,3 +27,4 @@ __pycache__/
 *.xlsx
 *.ini
 jobData/xresnet50.pkl
+jobData/chuck_norris.pkl
