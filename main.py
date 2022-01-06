@@ -41,7 +41,6 @@ class DeepQ(nn.Module):
         self.value = nn.Linear(512,1)
         self.advantage = nn.Linear(512,n_actions)
 
-        
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
         self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.to(self.device)
