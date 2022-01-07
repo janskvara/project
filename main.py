@@ -90,7 +90,7 @@ class DeepQ(nn.Module):
 
 class Agent():
     def __init__(self, lr, input_dims, n_actions, mem_size, batch_size,
-                replace,chkpt_dir, gamma, epsilon_decay =  1 / 20000, #temperature, temp_min, temp_dec1, temp_dec2, 
+                replace,chkpt_dir, gamma, epsilon_decay =  1/20000, #temperature, temp_min, temp_dec1, temp_dec2, 
                 algo=None, env_name=None,
                 ): #epsilon
         self.lr = lr
@@ -109,7 +109,7 @@ class Agent():
         self.action_space = [i for i in range(self.n_actions)]
         self.learn_step_count = 0
         self.beta = 0.4
-        self.epsilon = 1.0
+        self.epsilon = 0
         #self.temperature = temperature
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions)
 
@@ -186,8 +186,8 @@ class Agent():
             self.temperature = self.temperature - self.temp_dec2 if self.temperature > self.temp_min else self.temp_min
 
     def decrement_epsilon(self):
-        min_epsilon = 0.01
-        max_epsilon = 1.0
+        min_epsilon = 0
+        max_epsilon = 0.02
         self.epsilon = max(
                     min_epsilon, self.epsilon - (
                         max_epsilon - min_epsilon
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     env = Environment()
     best_score = -np.inf
     prev_avg = -np.inf
-    load_checkpoint = False
+    load_checkpoint = True
     n_games = 351
     #print(env.unwrapped.get_action_meanings())
     #print(T.cuda.is_available())
@@ -261,8 +261,8 @@ if __name__ == '__main__':
                     chkpt_dir='models/', algo='DuelingDoubleDQNAgent', 
                     env_name='Dyno') #epsilon = 1.0
     
-    #if load_checkpoint: 
-    #    agent.load()
+    if load_checkpoint: 
+        agent.load()
 
     filename = agent.algo +'_'+agent.env_name + '_lr' + str(agent.lr) + '_' + str(n_games) + '_games'
     figure_file = 'plots/' + filename +'.png'

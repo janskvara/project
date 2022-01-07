@@ -9,7 +9,6 @@ class ReplayBuffer():
         self.mem_cntr = 0
         self.priorities = collections.deque(maxlen=max_size)
 
-
         self.state_memory = np.zeros((self.mem_size,*input_shape), dtype=np.float32)
         self.new_state_memory =np.zeros((self.mem_size,*input_shape), dtype=np.float32)
         self.action_memory = np.zeros(self.mem_size,dtype=np.int64)

@@ -45,7 +45,7 @@ class RandomAgent:
 
             print('episode', epizode, 'last score %.0f, average score %.2f' %
                 (score, avg_score),
-                 'time ', t)
+                'time ', t)
 
             with open ('logs/random_score.txt', 'a') as fl:
                 fl.write('%.0f\n' %(score))
