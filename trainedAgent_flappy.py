@@ -36,6 +36,6 @@ def run(learner):
 if __name__ == '__main__':
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
-    path = os.path.join('C:/Users/valac/Documents/GitHub/project/jobData_flappy', 'model_resnet34-5.pkl')
+    path = os.path.join(Path(__file__).parent.resolve() / 'models_flappy/model_resnet18-5_alldata.pkl')
     learner = load(path)
     run(learner)
