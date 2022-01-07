@@ -9,7 +9,7 @@ archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
 def train():
-    path = r'.\dataset'
+    path = r'.\data_all'
     namesList = get_image_files(path)
     print(f"Total Images:{len(namesList)}")
 

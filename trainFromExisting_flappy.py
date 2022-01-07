@@ -9,7 +9,7 @@ archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
 def train():
-    path = r'.\dataset'
+    path = r'.\data_flappy'
     namesList = get_image_files(path)
     print(f"Total Images:{len(namesList)}")
 
@@ -21,7 +21,7 @@ def train():
     #         img_res = img.resize((800, 200))
     #         img_res.save(item)
 
-    dls = ImageDataLoaders.from_path_func(path, namesList, label_func, bs=16) # batchsize setting
+    dls = ImageDataLoaders.from_path_func(path, namesList, label_func, bs=16, num_workers=0) # batchsize setting
 
     learn = cnn_learner(dls, arch, pretrained=True, metrics=accuracy)
     print("Loaded")
