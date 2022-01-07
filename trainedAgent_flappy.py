@@ -26,19 +26,16 @@ def run(learner):
         result = learner.predict(image)
         action = result[0]
 
-        if action == 'dup84':
+        if action == 'df_up84':
             keyToPress = 0.0
-        elif action == 'ddown84':
-            keyToPress = 1.0
         else:
-            keyToPress = 2.0
+            keyToPress = 1.0
 
         image, reward, done =  env.step(keyToPress)
 
 if __name__ == '__main__':
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
-    path = os.path.join('C:/Users/valac/Documents/GitHub/project/jobData', 'model_resn18-5_84_30k.pkl')
+    path = os.path.join('C:/Users/valac/Documents/GitHub/project/jobData_flappy', 'model_resnet34-5.pkl')
     learner = load(path)
     run(learner)
-

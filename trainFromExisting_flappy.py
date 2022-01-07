@@ -3,8 +3,8 @@ from pathlib import Path
 
 def label_func(x): return x.parent.name
 
-arch = resnet18
-epochs = 1
+arch = resnet34
+epochs = 5
 archname = str(arch)
 name = archname[10:int(len(archname))-23]
 
