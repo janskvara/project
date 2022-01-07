@@ -11,7 +11,6 @@ import torch.optim as optim
 import torch as T
 import torch
 
-from utils import clip_reward
 #from env import make_env
 from environment import Environment
 from replay import ReplayBuffer
@@ -244,6 +243,9 @@ class Agent():
         self.learn_step_count +=1
         #self.decrement_temperature()
         self.decrement_epsilon()
+    
+    def clip_reward(reward):
+        return np.sign(reward)
 
 if __name__ == '__main__':
     env = Environment()
@@ -290,7 +292,7 @@ if __name__ == '__main__':
                 break
 
             score += reward
-            reward = clip_reward(reward)
+            reward = agent.clip_reward(reward)
 
             #I have tried clipping the rewards to control the loss function, but learned that this would only result less "certain" predictions in terms of the next Action to take.  
             #reward = np.clip(reward,0, 1)
@@ -333,6 +335,7 @@ if __name__ == '__main__':
         #I also tried to use Decaying Epsilon Greedy
         #eps_history.append(agent.epsilon)
         greedy_hist.append(np.sum(greedy)/len(greedy))
+
 
     #plot_learning_curve(steps_array, scores, greedy_hist, figure_file)
     #loss_plot(losses, losses_file)
